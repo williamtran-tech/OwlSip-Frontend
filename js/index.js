@@ -39,6 +39,7 @@ function login(e) {
                     localStorage.setItem("account_id", result.rows[0].id);
                     localStorage.setItem("username", result.rows[0].username);
 
+                    $("#messageLogin-modal").modal("show");
                     login_success();
                 }
                 else {
@@ -85,6 +86,7 @@ function login_success() {
     if (account_username == "admin@gmail.com") {
         document.getElementById("admin-index").innerHTML += `<a href="admin/product/index.html" class="dropdown-item">Update product</a>`;
     }
+
 }
 
 function logout() {
@@ -127,9 +129,10 @@ function register(e) {
                     document.getElementById("username").value = "";
                     document.getElementById("password").value = "";
                     $("#register-frm").modal("hide");
-                    $("#login-frm").modal("show");
+                    $("#messageRegister-modal").modal("show");
                     document.getElementById("register-frm").reset();
                     document.getElementById("registerMessage").innerText = "";
+
                 },
                 function (tx, result) {
                     document.getElementById("registerMessage").innerHTML = "This email have been used.";

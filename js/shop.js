@@ -42,6 +42,7 @@ function login(e) {
                     localStorage.setItem("account_id", result.rows[0].id);
                     localStorage.setItem("username", result.rows[0].username);
 
+                    $("#messageLogin-modal").modal("show");
                     login_success();
                 }
                 else {
@@ -124,12 +125,11 @@ function register(e) {
             tx.executeSql(query,
                 [username, password],
                 function (tx, result) {
-                    log(`INFO`, `Register successfully.`);
                     document.getElementById("loginMessage").innerHTML = "";
                     document.getElementById("username").value = "";
                     document.getElementById("password").value = "";
                     $("#register-frm").modal("hide");
-                    $("#login-frm").modal("show");
+                    $("#messageRegister-modal").modal("show");
                     document.getElementById("register-frm").reset();
                     document.getElementById("registerMessage").innerText = "";
                 },
