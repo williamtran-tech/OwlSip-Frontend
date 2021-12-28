@@ -1,0 +1,24 @@
+header img{
+    object-fit: cover;
+    height: 700px;
+}
+
+.product:hover{
+    background-color: rgba(128, 128, 128, 0.233);
+    border-radius: 10px;
+}
+
+.product .product-img img:hover{
+    scale: 1.01;
+    transition: all 0.2s ease-in-out;
+}
+
+.add-to-cart button {
+    color:#810000;
+    border: 1px solid #810000;
+}
+
+.add-to-cart button:hover {
+    background-color: #810000;
+    color: white;
+}
