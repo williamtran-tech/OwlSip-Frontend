@@ -135,3 +135,10 @@
 .delete-icon:hover {
     opacity: 1;
 }
+
+.title h2{
+    text-align: center;
+    font-weight: 700;
+    padding-top: 50px;
+    background-color: #ffffff;
+}

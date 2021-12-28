@@ -10,6 +10,19 @@
     <link rel="stylesheet" href="../css/style.css">
     <title>OWL SIP | Profile</title>
     <link rel="icon" type="image/x-icon" href="../img/icon/favicon01.png">
+    <style>
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            width: 40%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+    </style>
 </head>
 
 <body>
@@ -54,36 +67,236 @@
         </div>
     </header>
 
+    <div class="title">
+        <h1>Information</h1>
+    </div>
+
+    <!--Message Update success-->
+    <!-- Modal -->
+    <div class="modal fade" id="messageUpdate-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header ">
+                    <h5 class="text-align-center text-success" id="messageRegisterLabel">Successful!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="text-align-center text-secondary">Update information successfully.</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="user-info" class="container">
+        <div class="card">
+            <img src="../img/icon/img_avatar.png" alt="Avatar" style="width:100%">
+            <div class="container">
+                <h5 id="full-name" class="mt-3"></h5>
+                <h5 id="tel" class="mt-3 mb-3"></h5>
+            </div>
+        </div>
+    </div>
+
     <div class="container mt-5">
         <form id="user-info-frm">
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="first-name" placeholder="First name" required>
-                <label for="first-name">First name</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="last-name" placeholder="Last name" required>
-                <label for="last-name">Last name</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="phone" placeholder="Phone number" required>
-                <label for="phone">Phone number</label>
-            </div>
-            <button type="submit" class="btn btn-success btn-md">Save</button>
+            <div id="user-info-content"></div>
+            <button id="submit-info-btn" type="submit" class="btn btn-success btn-lg float-end me-3 mb-5"
+                disabled>Save</button>
+            <button id="update-btn" type="button" onclick="update_info()"
+                class="btn btn-outline-primary btn-lg float-end me-3 ">Update</button>
         </form>
     </div>
 
+    <div class="title">
+        <h2></h2>>
+    </div>
+    <!--Footer-->
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <div class="col-md-4 d-flex align-items-center">
+                <a href="../index.html" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+                    <img src="../img/icon/logo04.jpg" width="40px" class="opacity-50">
+                </a>
+                <span class="text-muted">&copy; 2021 Company, Inc</span>
+            </div>
+
+            <ul class="nav col-md-4 justify-content-end list-unstyled d-flex footer-icon">
+                <li class="ms-3"><a href="https://www.facebook.com/OwlSip" target="about_blank"><img
+                            src="../img/icon/icon-facebook.jpg" width="40px"></a></li>
+                <li class="ms-3"><a href="https://www.instagram.com/owlsipvn/" target="about_blank"><img
+                            src="../img/icon/icon-instagram.png" width="40px"></a></li>
+            </ul>
+        </footer>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
     <script src="../js/database.js"></script>
-    <script src="../js/index.js"></script>
 
     <script>
         window.onload = function () {
             initialize_database();
             fetch_database();
-            on_load();
-            get_product();
+            login_success();
+            get_user_info();
+        }
+
+        function login_success() {
+
+            var account_info = document.getElementById("account-info");
+
+            update_cart_quantity();
+            account_info.innerHTML = "";
+            account_info.innerHTML = `
+                        <div id="account-info" class="float-end float-lg-start">
+                            <div class="dropdown">
+                                <div class="" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                    aria-expanded="false" style="border: none;">
+                                    <img src="../img/icon/account_circle_black_24dp.svg" width="42px">
+                                </div>
+                                <ul class="dropdown-menu dropdown-menu-end mt-3" aria-labelledby="dropdownMenuButton">
+                                    <li class=""><a href="../html/profile.html" class="dropdown-item">Profile</a></li>
+                                    <li id="admin"></li>
+                                    <li><a href="../index.html" style="text-decoration: none;"><btn onclick="logout()" class="dropdown-item btn">Logout<img src="../img/icon/logout-icon.svg" class="float-end"></btn></a></li>
+                                </ul>
+                            </div>
+                        </div>`;
+
+            document.getElementById("cart-info").innerHTML = `
+                <a href="../html/cart.html"><img src="../img/icon/cart.svg" width="42px"
+                title="Cart" alt="Cart"><span id="cart-quantity" class="me-3"></span></a>
+                `;
+
+            var account_username = localStorage.getItem("username");
+
+            if (account_username == "admin@gmail.com") {
+                document.getElementById("admin").innerHTML += `<a href="../admin/product/index.html" class="dropdown-item">Update product</a>`;
+            }
+        }
+
+        function logout() {
+            localStorage.setItem("account_id", "");
+            localStorage.setItem("username", "");
+
+            document.getElementById("account-info").innerHTML = `
+                                                    <a href="" data-bs-toggle="modal" data-bs-target="#login-frm"><img
+                                                    src="../img/icon/account_circle_black_24dp.svg" width="42px" title="Login" alt="Login"></a>
+                                                     `;
+            document.getElementById("loginMessage").innerHTML = "";
+            document.getElementById("cart-quantity").innerHTML = ``;
+        }
+
+        function update_cart_quantity() {
+            var account_id = localStorage.getItem("account_id");
+
+            db.transaction(function (tx) {
+                var query = `SELECT SUM(quantity) AS total_quantity FROM cart WHERE account_id = ?`;
+
+                tx.executeSql(query,
+                    [account_id],
+                    function (tx, result) {
+                        if (result.rows[0].total_quantity) {
+                            document.getElementById("cart-quantity").innerText =
+                                result.rows[0].total_quantity;
+                        }
+                        else {
+                            document.getElementById("cart-quantity").innerText = "";
+                        }
+                    },
+                    transaction_error);
+            });
+        }
+
+        function update_info() {
+            document.getElementById("submit-info-btn").disabled = false;
+            document.getElementById("update-btn").disabled = true;
+            var user_info = document.getElementById("user-info-content");
+            if (user_info.innerHTML == "") {
+                user_info.innerHTML +=
+                    `<div class="form-floating mb-3">
+                <input type="text" class="form-control" id="first-name" placeholder="First name" required>
+                    <label for="first-name">First name</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="last-name" placeholder="Last name" required>
+                    <label for="last-name">Last name</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="phone" placeholder="Phone number" required>
+                    <label for="phone">Phone number</label>
+                </div>`;
+            }
+
+        }
+
+        document.getElementById("user-info-frm").onsubmit = insert_data;
+
+        function insert_data(e) {
+            e.preventDefault();
+
+            var last_name = document.getElementById("last-name").value;
+            var first_name = document.getElementById("first-name").value;
+            var phone = document.getElementById("phone").value;
+            var account_id = localStorage.getItem("account_id");
+
+
+            db.transaction(function (tx) {
+                var query = ` UPDATE account SET first_name = ?, last_name = ?, phone = ?  WHERE id = ?`;
+
+
+                tx.executeSql(query,
+                    [first_name, last_name, phone, account_id],
+                    function (tx, result) {
+                        log(`INFO`, `Update account successfully.`);
+
+                        document.getElementById("user-info-frm").reset();
+
+                        $("#messageUpdate-modal").modal("show");
+                        get_user_info();
+
+                        var user_info = document.getElementById("user-info-content");
+                        user_info.innerHTML = "";
+
+                        document.getElementById("submit-info-btn").disabled = true;
+                        document.getElementById("update-btn").disabled = false;
+                    },
+                    transaction_error
+                );
+            });
+        }
+
+        function get_user_info() {
+            var account_id = localStorage.getItem("account_id");
+            var full_name = document.getElementById("full-name");
+            var phone = document.getElementById("tel");
+
+            db.transaction(function (tx) {
+                var query = `SELECT first_name, last_name, phone FROM account WHERE id = ?`;
+
+                tx.executeSql(query,
+                    [account_id],
+                    function (tx, result) {
+                        log(`INFO`, `Get account info successfully.`);
+                        if (result.rows[0].first_name === null) {
+                            full_name.innerHTML += `Name: <span class="text-secondary fs-5">Not provided`;
+                            phone.innerHTML += `Tel: <span class="text-secondary fs-5">Not provided`;
+                        }
+                        else {
+                            show_info(result.rows[0]);
+                        }
+                    }),
+                    transaction_error
+            });
+        }
+
+        function show_info(info) {
+            var full_name = document.getElementById("full-name");
+            var phone = document.getElementById("tel");
+
+            full_name.innerHTML = `Name: <span class="text-secondary fs-5">${info.first_name} ${info.last_name}</span>`;
+            phone.innerHTML = `Tel: <span class="text-secondary fs-5">${info.phone}</span>`;
         }
     </script>
 </body>

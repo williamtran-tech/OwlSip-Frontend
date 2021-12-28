@@ -74,7 +74,7 @@ function login_success() {
                             <li><a href="" style="text-decoration: none;"><btn onclick="logout()" class="dropdown-item btn">Logout<img src="img/icon/logout-icon.svg" class="float-end"></btn></a></li>
                         </ul>
                     </div>
-                </div>`
+                </div>`;
 
     document.getElementById("cart-info-index").innerHTML = `
         <a href="html/cart.html"><img src="img/icon/cart.svg" width="42px"
