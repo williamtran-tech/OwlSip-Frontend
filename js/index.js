@@ -99,6 +99,48 @@ function logout() {
     document.getElementById("cart-quantity").innerHTML = ``;
 }
 
+
+document.getElementById("register-frm").onsubmit = register;
+
+function register(e) {
+    e.preventDefault();
+
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
+    document.getElementById("loginMessage").innerHTML = "";
+
+    var username = document.getElementById("username-register").value;
+    var password = document.getElementById("password-register").value;
+    var re_password = document.getElementById("re-password").value;
+
+    if (password == re_password) {
+        db.transaction(function (tx) {
+
+            var query = `INSERT INTO account (username, password, status) VALUES (?,?,1)
+                        `;
+
+            tx.executeSql(query,
+                [username, password],
+                function (tx, result) {
+                    document.getElementById("loginMessage").innerHTML = "";
+                    document.getElementById("username").value = "";
+                    document.getElementById("password").value = "";
+                    $("#register-frm").modal("hide");
+                    $("#login-frm").modal("show");
+                    document.getElementById("register-frm").reset();
+                    document.getElementById("registerMessage").innerText = "";
+                },
+                function (tx, result) {
+                    document.getElementById("registerMessage").innerHTML = "This email have been used.";
+                }
+            );
+        });
+    }
+    else {
+        document.getElementById("registerMessage").innerHTML = "Wrong confirmed password.";
+    };
+}
+
 function update_cart_quantity() {
     var account_id = localStorage.getItem("account_id");
 
