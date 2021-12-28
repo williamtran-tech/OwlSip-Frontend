@@ -70,7 +70,7 @@ function login_success() {
                         <ul class="dropdown-menu dropdown-menu-end mt-3" aria-labelledby="dropdownMenuButton">
                             <li class=""><a href="html/profile.html" class="dropdown-item">Profile</a></li>
                             <li id="admin-index"></li>
-                            <li><a href="/" style="text-decoration: none;"><btn onclick="logout()" class="dropdown-item btn">Logout<img src="../img/icon/logout-icon.svg" class="float-end"></btn></a></li>
+                            <li><a href="/" style="text-decoration: none;"><btn onclick="logout()" class="dropdown-item btn">Logout<img src="img/icon/logout-icon.svg" class="float-end"></btn></a></li>
                         </ul>
                     </div>
                 </div>`
