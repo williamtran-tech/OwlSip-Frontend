@@ -122,6 +122,7 @@ function register(e) {
             tx.executeSql(query,
                 [username, password],
                 function (tx, result) {
+                    log(`INFO`, `Register successfully.`);
                     document.getElementById("loginMessage").innerHTML = "";
                     document.getElementById("username").value = "";
                     document.getElementById("password").value = "";
