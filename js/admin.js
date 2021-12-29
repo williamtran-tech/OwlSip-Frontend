@@ -52,7 +52,7 @@ function show_all_product(products) {
                 <td class="text-start">${product.description}</td>
                 <td>${product.category_name}</td>
                 <td>
-                    <button onclick="delete_product_item(this.id)" id="${product.id}" class="btn btn-sm"><img src=../../img/icon/delete-item.png width="25px" class="delete-icon"></button>
+                    <button onclick="delete_product_item(this.id)" id="${product.id}" class="btn btn-sm"><img src=../../img/icon/delete-icon.png width="35px" class="delete-icon"></button>
                 </td>
             </tr>
             `;
