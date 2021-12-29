@@ -103,7 +103,7 @@ function create(e) {
 
                 document.getElementById("create-product-frm").reset();
                 document.getElementById("name").focus();
-                $("#messageCreateFailed").modal("show");
+                $("#messageCreate").modal("show");
             },
             function (tx, result) {
                 log(`ERROR`, `Existed product name.`);
