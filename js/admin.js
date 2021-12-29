@@ -100,11 +100,14 @@ function create(e) {
             [product_name, product_description, product_img_src, product_price, product_category],
             function (tx, result) {
                 log("INFO", `Create product "${product_name}" successfully.`);
-                $("#messageCreate").modal("show");
+
                 document.getElementById("create-product-frm").reset();
                 document.getElementById("name").focus();
             },
-            transaction_error
+            function (tx, result) {
+                log(`ERROR`, `Existed product name.`);
+                $("#messageCreateFailed").modal("show");
+            }
         );
     });
 }
